@@ -1,0 +1,51 @@
+version: 2.1
+
+jobs:
+  build:
+    machine:
+      image: "ubuntu-1604:202004-01"
+      docker_layer_caching: true
+    steps:
+      - checkout
+      # Run unit tests
+      - run: docker build -t test --target test .
+      - run: docker run -it --rm test
+      # Build image
+      - run: docker build -t $IMAGE_TAG:${CIRCLE_BRANCH} --target production .
+      - run: mkdir -p ./images && docker save -o ./images/production.tar $IMAGE_TAG:${CIRCLE_BRANCH}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./images
+  push-image:
+    machine:
+      image: "ubuntu-1604:202004-01"
+      docker_layer_caching: true
+    steps:
+      - attach_workspace:
+          at: .
+      # Login to ghcr
+      - run: |
+          echo "$GHCR_PAT" | docker login ghcr.io -u jtaylorsoftware --password-stdin
+      # Load built image
+      - run: docker load -i ./images/production.tar
+      # Publish to ghcr
+      - run: docker push $IMAGE_TAG:${CIRCLE_BRANCH}
+
+workflows:
+  build-push:
+    jobs:
+      - build
+      - push-image:
+          requires:
+            - build
+          context:
+            - ghcr
+          filters:
+            branches:
+              # Only match branches with version tags
+              only:
+                - latest
+                - /\d\.\d\.\d/
+              
+
