@@ -15,7 +15,7 @@ FROM base as test
 CMD ["./gradlew", "test"]
 
 FROM base as development
-CMD ["./gradlew", "bootRun", "-Pdebug"]
+CMD ["./gradlew", "bootRun", "-Pdebug", "--args='--spring.profiles.active=dev'"]
 
 FROM base as build
 RUN ./gradlew clean bootJar

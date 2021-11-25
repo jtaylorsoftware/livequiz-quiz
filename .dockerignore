@@ -1,2 +1,6 @@
 build
+.idea/docker-compose.yml
+.circleci
 .idea
+.gitignore
+/Dockerfile

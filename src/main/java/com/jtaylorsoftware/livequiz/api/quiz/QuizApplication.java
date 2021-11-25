@@ -9,6 +9,8 @@ import java.util.Arrays;
 public class QuizApplication {
 
 	public static void main(String[] args) {
+		System.out.println("Region: " + System.getenv("AWS_REGION"));
+		System.out.println(Arrays.toString(args));
 		SpringApplication.run(QuizApplication.class, args);
 	}
 

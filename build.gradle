@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.jtaylorsoftware.livequiz.api'
-version = '0.0.1'
+version = '0.1.0'
 sourceCompatibility = '17'
 
 configurations {
@@ -20,12 +20,14 @@ repositories {
 
 dependencies {
 	implementation platform('software.amazon.awssdk:bom:2.15.0')
-	implementation 'software.amazon.awssdk:dynamodb:2.17.81'
+	implementation 'software.amazon.awssdk:dynamodb-enhanced:2.17.81'
 
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.0'
-	compileOnly 'org.projectlombok:lombok:1.18.22'
-	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas:2.6.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.0'
+
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
+	compileOnly 'org.projectlombok:lombok:1.18.22'
 }
 
 bootRun {
