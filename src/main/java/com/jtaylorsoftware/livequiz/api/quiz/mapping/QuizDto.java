@@ -1,20 +1,25 @@
 package com.jtaylorsoftware.livequiz.api.quiz.mapping;
 
-import com.jtaylorsoftware.livequiz.api.quiz.model.Question;
-import lombok.*;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NonNull;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
-@DynamoDbBean
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Builder
-@ToString
-@EqualsAndHashCode
 public class QuizDto {
+    @NotBlank(message = "Title cannot be empty.")
+    @NonNull
     private String title;
-    private List<Question> questions;
+
+    @NotNull(message = "Questions must be present")
+    @NonNull
+    @Size(min = 1, max = 20, message = "Must have between 1 and 20 questions")
+    private List<QuestionDto> questions;
 
     public String getTitle() {
         return title;
@@ -24,11 +29,11 @@ public class QuizDto {
         this.title = title;
     }
 
-    public List<Question> getQuestions() {
+    public List<QuestionDto> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(List<Question> questions) {
+    public void setQuestions(List<QuestionDto> questions) {
         this.questions = questions;
     }
 }

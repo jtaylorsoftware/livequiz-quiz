@@ -61,7 +61,7 @@ public class Question {
     @ToString
     @EqualsAndHashCode
     public static class MultipleChoiceQuestionBody implements QuestionBody {
-        private final static QuestionType type = QuestionType.MULTIPLE_CHOICE;
+        private QuestionType type;
 
         private List<Choice> choices;
 
@@ -73,9 +73,30 @@ public class Question {
             return type;
         }
 
+        public void setType(QuestionType type) {
+            this.type = type;
+        }
+
+        public List<Choice> getChoices() {
+            return choices;
+        }
+
+        public void setChoices(List<Choice> choices) {
+            this.choices = choices;
+        }
+
+        public Integer getAnswerIndex() {
+            return answerIndex;
+        }
+
+        public void setAnswerIndex(Integer answerIndex) {
+            this.answerIndex = answerIndex;
+        }
+
         @DynamoDbBean
         @Data
         public static class Choice {
+            @NonNull
             private String text;
         }
     }
@@ -86,7 +107,7 @@ public class Question {
     @ToString
     @EqualsAndHashCode
     public static class FillInQuestionBody implements QuestionBody {
-        private final static QuestionType type = QuestionType.FILL_IN;
+        private QuestionType type;
 
         @JsonView(Views.Internal.class)
         private String answer;
@@ -94,6 +115,18 @@ public class Question {
         @Override
         public QuestionType getType() {
             return type;
+        }
+
+        public void setType(QuestionType type) {
+            this.type = type;
+        }
+
+        public String getAnswer() {
+            return answer;
+        }
+
+        public void setAnswer(String answer) {
+            this.answer = answer;
         }
     }
 
