@@ -1,14 +1,10 @@
 version: "3.9"
 services:
-  spring:
+  spring-dev:
     build:
       context: .
       target: development
     ports:
       - "8080:8080"
-    env_file:
-      - ./aws.env
   dynamodb:
     image: amazon/dynamodb-local
-
-
