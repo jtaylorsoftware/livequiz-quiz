@@ -12,10 +12,10 @@ COPY src src
 CMD ["./gradlew", "bootRun"]
 
 FROM base as test
-CMD ["./gradlew", "test"]
+CMD ["./gradlew", "test", "-Pdocker"]
 
 FROM base as development
-CMD ["./gradlew", "bootRun", "-Pdebug", "--args='--spring.profiles.active=dev'"]
+CMD ["./gradlew", "bootRun", "-Pdebug", "--args='--spring.profiles.active=dev --environment=docker'"]
 
 FROM base as build
 RUN ./gradlew clean bootJar
@@ -29,4 +29,4 @@ ARG DEPENDENCY=/workspace/app/build/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.jtaylorsoftware.livequiz.api.quiz.QuizApplication"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.jtaylorsoftware.livequiz.api.quiz.QuizApplication", "--spring-profiles.active=prod"]
