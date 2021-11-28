@@ -4,3 +4,4 @@ build
 .idea
 .gitignore
 /Dockerfile
+/docker-compose.test.yml
