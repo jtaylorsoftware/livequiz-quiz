@@ -1,7 +1,7 @@
 package com.jtaylorsoftware.livequiz.api.quiz.controller;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.jtaylorsoftware.livequiz.api.quiz.Service.QuizService;
+import com.jtaylorsoftware.livequiz.api.quiz.service.QuizService;
 import com.jtaylorsoftware.livequiz.api.quiz.controller.assembler.QuizModelAssembler;
 import com.jtaylorsoftware.livequiz.api.quiz.exception.QuizNotFoundException;
 import com.jtaylorsoftware.livequiz.api.quiz.mapping.QuizDto;

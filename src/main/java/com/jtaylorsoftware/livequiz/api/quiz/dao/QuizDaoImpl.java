@@ -11,6 +11,8 @@ import software.amazon.awssdk.enhanced.dynamodb.model.UpdateItemEnhancedRequest;
 import software.amazon.awssdk.services.dynamodb.model.DynamoDbException;
 import software.amazon.awssdk.services.dynamodb.model.ResourceInUseException;
 
+import java.time.Instant;
+
 import static software.amazon.awssdk.enhanced.dynamodb.model.QueryConditional.keyEqualTo;
 
 @Component
@@ -27,7 +29,7 @@ public class QuizDaoImpl implements QuizDao {
             System.out.println(e.getMessage());
         } catch (DynamoDbException e) {
             // Unknown exception
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
             System.exit(1);
         }
     }
@@ -52,7 +54,8 @@ public class QuizDaoImpl implements QuizDao {
 
     public void create(Quiz quiz) {
         try {
-            quizTable.putItem(quiz);
+            val timestamp = Instant.now();
+            quizTable.putItem(quiz.toBuilder().dateCreated(timestamp).lastUpdated(timestamp).build());
         } catch (DynamoDbException e) {
             throw new DatabaseException(e);
         }
@@ -61,7 +64,13 @@ public class QuizDaoImpl implements QuizDao {
     @Override
     public Quiz save(Quiz quiz) {
         try {
-            return quizTable.updateItem(UpdateItemEnhancedRequest.builder(Quiz.class).ignoreNulls(true).build());
+            return quizTable.updateItem(
+                UpdateItemEnhancedRequest
+                    .builder(Quiz.class)
+                    .ignoreNulls(true)
+                    .item(quiz.toBuilder().lastUpdated(Instant.now()).build())
+                    .build()
+            );
         } catch (DynamoDbException e) {
             throw new DatabaseException(e);
         }

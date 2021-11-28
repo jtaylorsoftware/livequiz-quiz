@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  spring-test:
+    build:
+      context: .
+      target: test
+    ports:
+      - "8080:8080"
+  dynamodb:
+    image: amazon/dynamodb-local

@@ -1,21 +1,20 @@
 package com.jtaylorsoftware.livequiz.api.quiz.dao;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
+import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
-import java.net.URI;
-
 @Configuration
-public class DynamoDbClientConfig {
-    @Value("${dynamodb.endpoint}")
-    private String dynamoDbEndpoint;
-
+@Profile("prod")
+public class DynamoDbClientConfigProd {
     @Bean
     public DynamoDbClient dynamoDbClient() {
-        return DynamoDbClient.builder().endpointOverride(URI.create(dynamoDbEndpoint)).build();
+        return DynamoDbClient.builder()
+            .region(Region.US_WEST_2)
+            .build();
     }
 
     @Bean

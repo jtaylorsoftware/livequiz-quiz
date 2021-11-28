@@ -1,4 +1,4 @@
-package com.jtaylorsoftware.livequiz.api.quiz.Service;
+package com.jtaylorsoftware.livequiz.api.quiz.service;
 
 import com.jtaylorsoftware.livequiz.api.quiz.exception.QuizNotFoundException;
 import com.jtaylorsoftware.livequiz.api.quiz.exception.ServiceException;
@@ -14,6 +14,7 @@ public interface QuizService {
     /**
      * Looks up a Quiz by its id.
      * @param id Id of the Quiz to find.
+     * @throws ServiceException If there's an exception completing the find.
      * @return An {@code Optional} with the Quiz if found, or empty if not found.
      */
     Optional<Quiz> findById(String id);

@@ -1,1 +1,4 @@
-dynamodb.endpoint: http://dynamodb:8000
+# Variable indicating what environment app runs in
+# - local - running directly on machine
+# - docker - running in container
+environment=local

@@ -37,17 +37,15 @@ public class QuestionDto {
     @Builder
     public static class MultipleChoiceQuestionBody implements QuestionDto.QuestionBody {
         @NotBlank(message = "Type must not be blank")
-        @NonNull
-        private String type;
+        @Builder.Default
+        private String type = Question.QuestionType.MULTIPLE_CHOICE.name();
 
         @NotNull
         @Size(min = 1, max = 4, message = "Must have between 1 and 4 choices")
-        @NonNull
         private List<Choice> choices;
 
         @NotNull
         @Min(value = 0, message = "Must have non-negative answerIndex")
-        @NonNull
         private Integer answerIndex;
 
         @Override
@@ -76,8 +74,8 @@ public class QuestionDto {
         }
 
         @Data
+        @Builder
         public static class Choice {
-            @NonNull
             @NotBlank(message = "Question choice must not be blank")
             private String text;
         }
@@ -87,11 +85,10 @@ public class QuestionDto {
     @Builder
     public static class FillInQuestionBody implements QuestionDto.QuestionBody {
         @NotBlank(message = "Type must not be blank")
-        @NonNull
-        private String type;
+        @Builder.Default
+        private String type = Question.QuestionType.FILL_IN.name();
 
         @NotBlank(message = "Answer must not be blank")
-        @NonNull
         private String answer;
 
         @Override

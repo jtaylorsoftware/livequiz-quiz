@@ -61,7 +61,8 @@ public class Question {
     @ToString
     @EqualsAndHashCode
     public static class MultipleChoiceQuestionBody implements QuestionBody {
-        private QuestionType type;
+        @Builder.Default
+        private QuestionType type = QuestionType.MULTIPLE_CHOICE;
 
         private List<Choice> choices;
 
@@ -93,11 +94,21 @@ public class Question {
             this.answerIndex = answerIndex;
         }
 
-        @DynamoDbBean
-        @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
+        @Builder
+        @ToString
+        @EqualsAndHashCode
         public static class Choice {
-            @NonNull
             private String text;
+
+            public String getText() {
+                return text;
+            }
+
+            public void setText(String text) {
+                this.text = text;
+            }
         }
     }
 
@@ -107,7 +118,8 @@ public class Question {
     @ToString
     @EqualsAndHashCode
     public static class FillInQuestionBody implements QuestionBody {
-        private QuestionType type;
+        @Builder.Default
+        private QuestionType type = QuestionType.FILL_IN;
 
         @JsonView(Views.Internal.class)
         private String answer;
