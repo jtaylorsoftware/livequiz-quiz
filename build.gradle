@@ -33,7 +33,8 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 	testCompileOnly 'org.projectlombok:lombok:1.18.22'
 
-	testImplementation 'org.hamcrest:hamcrest-all:1.3'
+	testImplementation 'org.hamcrest:hamcrest:2.2'
+	testImplementation 'org.hamcrest:hamcrest-library:2.2'
 }
 
 bootRun {
