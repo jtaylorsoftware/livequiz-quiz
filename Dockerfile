@@ -15,7 +15,7 @@ FROM base as test
 CMD ["./gradlew", "test", "-Pdocker"]
 
 FROM base as development
-CMD ["./gradlew", "bootRun", "-Pdebug", "--args='--spring.profiles.active=dev --environment=docker'"]
+CMD ["./gradlew", "bootRun", "-Pdebug", "-Pargs='--spring.profiles.active=dev --environment=docker'"]
 
 FROM base as build
 RUN ./gradlew clean bootJar

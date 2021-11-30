@@ -38,7 +38,10 @@ dependencies {
 
 bootRun {
 	if (project.hasProperty("debug")) {
-		jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
+		jvmArgs "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8081"
+	}
+	if (project.hasProperty("args")) {
+		args project.args.split(' ')
 	}
 }
 
