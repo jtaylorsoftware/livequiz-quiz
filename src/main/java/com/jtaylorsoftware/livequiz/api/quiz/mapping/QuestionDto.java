@@ -6,6 +6,7 @@ import com.jtaylorsoftware.livequiz.api.quiz.model.Question;
 import com.jtaylorsoftware.livequiz.api.quiz.validators.ValidQuestionBody;
 import lombok.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,28 +14,33 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
-@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder(toBuilder = true)
 public class QuestionDto {
     @NotBlank(message = "Question must not be blank")
     private String prompt;
 
     private String imageUrl;
 
+    @Valid
     @ValidQuestionBody
     @NotNull(message = "Question body must not be null")
     private QuestionBody body;
 
     @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "type")
     @JsonSubTypes({
-        @JsonSubTypes.Type(value = Question.MultipleChoiceQuestionBody.class, name = "MULTIPLE_CHOICE"),
-        @JsonSubTypes.Type(value = Question.FillInQuestionBody.class, name = "FILL_IN"),
+        @JsonSubTypes.Type(value = QuestionDto.MultipleChoiceQuestionBody.class, name = "MULTIPLE_CHOICE"),
+        @JsonSubTypes.Type(value = QuestionDto.FillInQuestionBody.class, name = "FILL_IN"),
     })
     public interface QuestionBody {
         String getType();
     }
 
     @Data
-    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder(toBuilder = true)
     public static class MultipleChoiceQuestionBody implements QuestionDto.QuestionBody {
         @NotBlank(message = "Type must not be blank")
         @Builder.Default
@@ -74,6 +80,8 @@ public class QuestionDto {
         }
 
         @Data
+        @AllArgsConstructor
+        @NoArgsConstructor
         @Builder
         public static class Choice {
             @NotBlank(message = "Question choice must not be blank")
@@ -82,7 +90,9 @@ public class QuestionDto {
     }
 
     @Data
-    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder(toBuilder = true)
     public static class FillInQuestionBody implements QuestionDto.QuestionBody {
         @NotBlank(message = "Type must not be blank")
         @Builder.Default
