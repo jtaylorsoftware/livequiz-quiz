@@ -24,15 +24,18 @@ public interface QuizDao {
 
     /**
      * Persists or updates a Quiz. If given an existing Quiz, will perform a replacement, potentially
-     * losing previously saved properties.
+     * losing previously saved properties. Sets the dateCreated and lastUpdated timestamps on the Quiz
+     * to the current time.
      * @throws DatabaseException If an internal database error occurs.
      * @param quiz Quiz model to save.
+     * @return The created Quiz.
      */
-    void create(Quiz quiz);
+    Quiz create(Quiz quiz);
 
     /**
      * Updates an existing Quiz using data from the argument model. Argument model can contain nulls,
-     * in which case those properties will skipped in the update.
+     * in which case those properties will skipped in the update. Sets the lastUpdated timestamp on the
+     * Quiz to the current time.
      * @param quiz Partial or full Quiz data to use in the update.
      * @throws DatabaseException If an internal database error occurs.
      * @return The updated Quiz.

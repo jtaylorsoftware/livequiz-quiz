@@ -47,8 +47,7 @@ public class QuizServiceImpl implements QuizService {
         try {
             val newQuiz = quizDtoConverter.toModel(quizDto);
             newQuiz.setCreatedBy(createdBy);
-            quizDao.create(newQuiz);
-            return newQuiz;
+            return quizDao.create(newQuiz);
         } catch (DatabaseException e) {
             throw new ServiceException(e);
         }

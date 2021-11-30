@@ -61,6 +61,11 @@ class QuizDaoTests {
             foundQuiz.getLastUpdated().atZone(ZoneId.systemDefault()).toLocalDate(),
             is(equalTo(LocalDate.now()))
         );
+        // Should have dateCreated populated by dao
+        assertThat(
+            foundQuiz.getDateCreated().atZone(ZoneId.systemDefault()).toLocalDate(),
+            is(equalTo(LocalDate.now()))
+        );
     }
 
     @Test

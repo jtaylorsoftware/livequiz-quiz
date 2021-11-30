@@ -52,10 +52,12 @@ public class QuizDaoImpl implements QuizDao {
         }
     }
 
-    public void create(Quiz quiz) {
+    public Quiz create(Quiz quiz) {
         try {
             val timestamp = Instant.now();
-            quizTable.putItem(quiz.toBuilder().dateCreated(timestamp).lastUpdated(timestamp).build());
+            val created = quiz.toBuilder().dateCreated(timestamp).lastUpdated(timestamp).build();
+            quizTable.putItem(created);
+            return created;
         } catch (DynamoDbException e) {
             throw new DatabaseException(e);
         }

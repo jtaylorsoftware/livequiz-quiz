@@ -16,6 +16,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -62,14 +64,26 @@ class QuizServiceTests {
     }
 
     @Test
-    void create_setsCreatedBy() {
+    void create_setsCreatedBy_andReturnsDaoQuiz() {
         val quiz = QuizDto.builder().build();
         val id = "TEST";
         val createdBy = "TEST";
-        when(converter.toModel(quiz)).thenReturn(Quiz.builder().id(id).build());
+        val timestamp = Instant.now();
+        val quizWithCreatedBy = Quiz.builder()
+            .id(id)
+            .createdBy(createdBy)
+            .build();
+        val createdQuiz = quizWithCreatedBy.toBuilder()
+            .dateCreated(timestamp)
+            .lastUpdated(timestamp)
+            .build();
+        when(converter.toModel(quiz)).thenReturn(Quiz.builder()
+            .id(id)
+            .build());
+        when(quizDao.create(any())).thenReturn(createdQuiz);
         val newQuiz = quizService.create(quiz, createdBy);
-        assertThat(newQuiz.getCreatedBy(), is(equalTo(createdBy)));
-        verify(quizDao, times(1)).create(any());
+        assertThat(newQuiz, is(equalTo(createdQuiz)));
+        verify(quizDao, times(1)).create(quizWithCreatedBy);
     }
 
     @Test
@@ -114,7 +128,7 @@ class QuizServiceTests {
     }
 
     @Test
-    void delete_whenQuizExists_deletes(){
+    void delete_whenQuizExists_deletes() {
         when(quizDao.existsById(any())).thenReturn(true);
         val argCapture = ArgumentCaptor.forClass(Quiz.class);
         val id = "TEST";
