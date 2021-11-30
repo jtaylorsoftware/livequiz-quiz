@@ -28,7 +28,7 @@ public class QuestionBodyValidator implements ConstraintValidator<ValidQuestionB
             val mcBody = (QuestionDto.MultipleChoiceQuestionBody) questionBody;
             if (mcBody.getAnswerIndex() >= mcBody.getChoices().size()) {
                 context.buildConstraintViolationWithTemplate("answerIndex must be less than number of choices")
-                    .addPropertyNode("anserIndex")
+                    .addPropertyNode("answerIndex")
                     .addConstraintViolation();
                 return false;
             }
